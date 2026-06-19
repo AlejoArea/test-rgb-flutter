@@ -12,7 +12,12 @@ import 'package:test_rgb_flutter/ui/widgets/hello_text.dart';
 import 'package:test_rgb_flutter/ui/widgets/text_card.dart';
 
 void main() {
+  const int start = 0;
+  const int end = 30;
   testWidgets('Widgets render', (WidgetTester tester) async {
+    /// constant value for the widgets on CurrentRGB widget
+    const int widgetCountCurrentRGB = 3;
+
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
@@ -21,7 +26,7 @@ void main() {
     expect(find.byType(CurrentRGBWidget), findsOneWidget);
     expect(find.byType(HelloText), findsOneWidget);
     expect(find.byType(AppBarTitle), findsOneWidget);
-    expect(find.byType(TextCard), findsNWidgets(3));
+    expect(find.byType(TextCard), findsNWidgets(widgetCountCurrentRGB));
   });
   group('Proving a notifier to test the on tap', () {
     Widget widgetWithProvider(
@@ -90,7 +95,7 @@ void main() {
 
     final appColorChanges = <Color?>{backgroundColor()};
 
-    for (var i = 0; i < 30; i++) {
+    for (var i = start; i < end; i++) {
       await tester.tap(find.byType(ColoredBody));
       await tester.pump();
       appColorChanges.add(backgroundColor());
@@ -116,7 +121,7 @@ void main() {
 
     final appColorChanges = <Color?>{backgroundColor()};
 
-    for (var i = 0; i < 30; i++) {
+    for (var i = start; i < end; i++) {
       await tester.tap(find.byType(AppBarTitle));
       await tester.pump();
       appColorChanges.add(backgroundColor());

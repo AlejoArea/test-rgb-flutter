@@ -23,7 +23,7 @@ void main() {
 
       /// My first approach for this test was to compare colors. But This can
       /// fail but the odds are really low because its 1 in 255^3 which is the
-      /// initial value for de color R=0,G=0,B=0. So I is better to check
+      /// initial value for de color R=0,G=0,B=0. So it is better to check
       /// that the values are in range.
 
       expect(
@@ -48,14 +48,17 @@ void main() {
       final differentNumbersRed = <int>{};
       final differentNumbersGreen = <int>{};
       final differentNumbersBlue = <int>{};
-      for (var i = 0; i < 30; i++) {
+      const int start = 0;
+      const int end = 30;
+
+      for (var i = start; i < end; i++) {
         testNotifier.randomizeColor();
         differentNumbersRed.add(testNotifier.value.red);
         differentNumbersGreen.add(testNotifier.value.green);
         differentNumbersBlue.add(testNotifier.value.blue);
       }
 
-      /// if after 30 randomize calls the length of this maps is more
+      /// if after 30 randomize calls the length of this sets is more
       /// than 1 the initial values changes for each of them
       expect(differentNumbersRed.length, greaterThan(1));
       expect(differentNumbersGreen.length, greaterThan(1));
@@ -65,7 +68,7 @@ void main() {
   group('Provider Tests', () {
     testWidgets('test Provider.of', (tester) async {
       final notifier = RandomColorNotifier(RandomColorModel());
-      late RandomColorNotifier captured;
+      RandomColorNotifier? captured;
 
       await tester.pumpWidget(
         Provider<RandomColorNotifier>(
@@ -75,6 +78,7 @@ void main() {
           child: Builder(
             builder: (context) {
               captured = Provider.of<RandomColorNotifier>(context);
+
               return const SizedBox();
             },
           ),
@@ -88,6 +92,7 @@ void main() {
         Builder(
           builder: (context) {
             Provider.of<RandomColorNotifier>(context);
+
             return const SizedBox();
           },
         ),
@@ -96,22 +101,20 @@ void main() {
       expect(tester.takeException(), isException);
     });
     testWidgets('test error when the notifier is null', (tester) async {
-      final notifier = RandomColorNotifier(RandomColorModel());
-      late RandomColorNotifier captured;
-
       await tester.pumpWidget(
         Provider<RandomColorNotifier>(
           notifier: null,
           child: Builder(
             builder: (context) {
-              captured = Provider.of<RandomColorNotifier>(context);
+              Provider.of<RandomColorNotifier>(context);
+
               return const SizedBox();
             },
           ),
         ),
       );
 
-      expect(captured, same(notifier));
+      expect(tester.takeException(), isException);
     });
   });
 }
