@@ -8,7 +8,6 @@ void main() {
   runApp(const MyApp());
 }
 
-
 // ignore: public_member_api_docs, prefer_match_file_name
 class MyApp extends StatefulWidget {
   // ignore: public_member_api_docs
@@ -19,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-    final _notifier = RandomColorNotifier(
+  final _notifier = RandomColorNotifier(
     RandomColorModel(),
   );
   @override
@@ -29,7 +28,6 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'Flutter RGB clicker',
         theme: ThemeData(
-
           colorScheme: .fromSeed(seedColor: Colors.blueGrey),
         ),
         home: const MainPage(),
